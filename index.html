@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-do List</title>
+    <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    body {
+      background: linear-gradient(to right, #f5f7fa, #c3cfe2);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    .container {
+      background-color: #fff;
+      border-radius: 15px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.1);
+      width: 90%;
+      max-width: 600px;
+      overflow: hidden;
+    }
+
+    .header {
+      background: linear-gradient(to right, #5f2c82, #49a09d);
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .input-box {
+      padding: 20px;
+      text-align: center;
+    }
+
+    .input-box input {
+      width: 70%;
+      padding: 10px;
+      margin-bottom: 10px;
+      border: none;
+      border-bottom: 2px solid #ccc;
+      outline: none;
+      font-size: 1rem;
+    }
+
+    .input-box button {
+      padding: 10px 30px;
+      background: linear-gradient(to right, #ff416c, #ff4b2b);
+      border: none;
+      color: white;
+      font-size: 1rem;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    .task-list {
+      padding: 20px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th, td {
+      text-align: left;
+      padding: 12px 10px;
+    }
+
+    th {
+      background-color: #f5f5f5;
+    }
+
+    tr:not(:last-child) {
+      border-bottom: 1px solid #ddd;
+    }
+
+    .status {
+      padding: 5px 12px;
+      border-radius: 12px;
+      color: white;
+      font-size: 0.85rem;
+      text-align: center;
+      display: inline-block;
+    }
+
+    .pending {
+      background-color: #6c757d;
+    }
+
+    .completed {
+      background-color: #28a745;
+    }
+
+    .delete-btn {
+      background: none;
+      border: none;
+      color: red;
+      font-size: 1.2rem;
+      cursor: pointer;
+    }
+
+    .delete-btn:hover {
+      filter: brightness(0.8);
+    }
+  </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>TO-DO List</h1>
+        </div>
+        <div class="input-box">
+            <input type="text" id="taskinput" placeholder="What would you like to do?">
+            <br>
+            <button onclick="addTask()">Add</button>
+        </div>
+        <div class="task-list">
+            <table>
+                <thead>
+                    <tr>
+                        <th>List</th>
+                        <th>Status</th>
+                        <th>Close</th>
+                    </tr>
+                </thead>
+                <tbody id="taskTableBody">
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+</body>
+</html>
+
+<script>
+    function addTask(){
+        const input = document.getElementById("taskinput");
+        const taskText = input.value.trim();
+        if(taskText === "") return;
+
+        const tbody = document.getElementById("taskTableBody");
+        const row = document.createElement("tr");
+
+        row.innerHTML = `<td>${taskText}</td>
+        <td><span class="status-pending" onclick="toggleStatus(this)">pending</span></td>
+        <td><button class="delete-btn" onclick="deleteTask(this)">🗑️</button></td>`
+
+        tbody.appendChild(row)
+        input.value = ""
+    }
+    function deleteTask(btn) {
+      const row = btn.closest("tr");
+      row.remove();
+    }
+    function toggleStatus(span) {
+      if (span.classList.contains("pending")) {
+        span.classList.remove("pending");
+        span.classList.add("completed");
+        span.textContent = "Completed";
+      } else {
+        span.classList.remove("completed");
+        span.classList.add("pending");
+        span.textContent = "pending";
+      }
+    }
+
+</script>
